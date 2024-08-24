@@ -1,0 +1,168 @@
+﻿<!-- MainPage.xaml -->
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             xmlns:effects="clr-namespace:FirebaseAuth.Effects"
+             x:Class="FirebaseAuth.Views.MainPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#1C1C1C">
+
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FuturisticButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#00FFFF"/>
+                <Setter Property="TextColor" Value="#1C1C1C"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            <Style x:Key="FuturisticEntry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="#2C2C2C"/>
+                <Setter Property="TextColor" Value="#00FFFF"/>
+                <Setter Property="PlaceholderColor" Value="#808080"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!-- NavBar customisée -->
+        <Grid Grid.Row="0" BackgroundColor="#2C2C2C" Padding="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="1" 
+                   Text="Propriétés Futuristes" 
+                   TextColor="#00FFFF" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"/>
+
+            <Button Grid.Column="2" 
+                    Text="&#x2630;" 
+                    FontSize="24" 
+                    TextColor="#00FFFF"
+                    BackgroundColor="Transparent"
+                    Command="{Binding OpenMenuCommand}"/>
+        </Grid>
+
+        <!-- Contenu principal -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="20">
+                <!-- Barre de recherche futuriste -->
+                <Frame BackgroundColor="#2C2C2C" CornerRadius="25" Padding="5" Margin="0,0,0,20">
+                    <StackLayout Orientation="Horizontal">
+                        <Entry Placeholder="Rechercher une propriété" 
+                               Text="{Binding SearchQuery}"
+                               HorizontalOptions="FillAndExpand"
+                               Style="{StaticResource FuturisticEntry}"/>
+                        <Button Text="Search &#x1F50D;" 
+                                FontSize="18"
+                                BackgroundColor="Transparent"
+                                TextColor="#00FFFF"
+                                Command="{Binding PerformSearchCommand}"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Liste des propriétés -->
+                <CollectionView ItemsSource="{Binding Properties}"
+                                SelectionMode="Single"
+                                SelectionChangedCommand="{Binding PropertySelectedCommand}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="20"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="#2C2C2C" CornerRadius="15" HasShadow="True">
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="200"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Image de la propriété avec effet de survol -->
+                                    <Image Grid.Row="0" 
+                                           Source="{Binding ImageUrl}" 
+                                           Aspect="AspectFill">
+                                        <Image.Effects>
+                                            <effects:TouchEffect Touchable="True" 
+                                                                 TouchColor="#00FFFF"/>
+                                        </Image.Effects>
+                                    </Image>
+
+                                    <!-- Informations de la propriété -->
+                                    <StackLayout Grid.Row="1" Spacing="5">
+                                        <Label Text="{Binding Price, StringFormat='{}{0:N0} F CFA'}" 
+                                               TextColor="#00FFFF" 
+                                               FontAttributes="Bold" 
+                                               FontSize="22"/>
+                                        <Label Text="{Binding ShortDescription}" 
+                                               TextColor="#FFFFFF" 
+                                               FontSize="16"/>
+                                        <Label Text="{Binding Location}" 
+                                               TextColor="#A0A0A0" 
+                                               FontSize="14"/>
+                                    </StackLayout>
+
+                                    <!-- Boutons d'action -->
+                                    <StackLayout Grid.Row="2" 
+                                                 Orientation="Horizontal" 
+                                                 HorizontalOptions="End" 
+                                                 Spacing="10">
+                                        <Button Text="Détails" 
+                                                Style="{StaticResource FuturisticButton}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=ViewDetailsCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        <Button Text="&#x2665;" 
+                                                FontSize="20"
+                                                TextColor="#FF69B4"
+                                                BackgroundColor="Transparent"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainPageViewModel}}, Path=AddToFavoritesCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Barre de navigation verticale -->
+        <StackLayout Grid.Row="2" 
+                     Orientation="Horizontal" 
+                     BackgroundColor="#2C2C2C" 
+                     Padding="10">
+            <Button Text="Accueil" 
+                    TextColor="#00FFFF" 
+                    BackgroundColor="Transparent"
+                    Command="{Binding NavigateToHomeCommand}"/>
+            <Button Text="Favoris" 
+                    TextColor="#00FFFF" 
+                    BackgroundColor="Transparent"
+                    Command="{Binding NavigateToFavoritesCommand}"/>
+            <Button Text="Recherche" 
+                    TextColor="#00FFFF" 
+                    BackgroundColor="Transparent"
+                    Command="{Binding NavigateToFavoritesCommand}"/>
+            <Button Text="Profil" 
+                    TextColor="#00FFFF" 
+                    BackgroundColor="Transparent"
+                    Command="{Binding NavigateToProfileCommand}"/>
+        </StackLayout>
+        
+    </Grid>
+</ContentPage>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FirebaseAuth.Views.ContactAgentPage"
+             xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             Title="Contacter l'agent">
+
+    <ContentPage.BindingContext>
+        <vm:ContactAgentViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="10">
+        <!-- Contact Form -->
+        <Entry Placeholder="Nom" Text="{Binding Name}" />
+        <Entry Placeholder="Email" Text="{Binding Email}" Keyboard="Email" />
+        <Entry Placeholder="Numéro de téléphone" Text="{Binding PhoneNumber}" Keyboard="Telephone" />
+        <Editor Placeholder="Message" Text="{Binding Message}" HeightRequest="150" />
+
+        <!-- Action Buttons -->
+        <Button Text="Envoyer" BackgroundColor="Blue" TextColor="White"
+                Command="{Binding SendMessageCommand}" />
+        <Button Text="Appeler" BackgroundColor="Green" TextColor="White"
+                Command="{Binding CallAgentCommand}" />
+        <Button Text="WhatsApp" BackgroundColor="LightGreen" TextColor="White"
+                Command="{Binding WhatsAppAgentCommand}" />
+    </StackLayout>
+
+</ContentPage>

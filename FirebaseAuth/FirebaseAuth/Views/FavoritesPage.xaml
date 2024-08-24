@@ -1,0 +1,79 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             x:Class="FirebaseAuth.Views.FavoritesPage"
+             BackgroundColor="#1C1C1C">
+
+    <ContentPage.BindingContext>
+        <vm:FavoritesPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FuturisticLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="#00FFFF"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+            <Style x:Key="FuturisticButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#00FFFF"/>
+                <Setter Property="TextColor" Value="#1C1C1C"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- En-tête -->
+        <StackLayout Grid.Row="0" BackgroundColor="#2C2C2C" Padding="20,40,20,20">
+            <Label Text="Vos Favoris" TextColor="#00FFFF" FontSize="24" FontAttributes="Bold"/>
+        </StackLayout>
+
+        <!-- Liste des favoris -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding FavoriteProperties}"
+                        EmptyView="Vous n'avez pas encore de favoris.">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Supprimer"
+                                           BackgroundColor="#FF4136"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesPageViewModel}}, Path=RemoveFromFavoritesCommand}"
+                                           CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Frame BackgroundColor="#2C2C2C" Margin="10" CornerRadius="10">
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0" 
+                                       Source="{Binding ImageUrl}" 
+                                       Aspect="AspectFill" 
+                                       WidthRequest="100" 
+                                       HeightRequest="100"/>
+
+                                <StackLayout Grid.Column="1" Padding="10">
+                                    <Label Text="{Binding Price}" Style="{StaticResource FuturisticLabel}"/>
+                                    <Label Text="{Binding ShortDescription}" TextColor="#FFFFFF" FontSize="16"/>
+                                    <Button Text="Voir Détails" 
+                                            Style="{StaticResource FuturisticButton}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesPageViewModel}}, Path=ViewDetailsCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

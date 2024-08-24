@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             x:Class="FirebaseAuth.Views.PublishPropertyPage"
+              Title="Publier une propriété">
+
+    <ContentPage.BindingContext>
+        <vm:PublishPropertyPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="10">
+            <!-- Property Form -->
+            <Entry Placeholder="Nom de la propriété" Text="{Binding PropertyName}" />
+            <Entry Placeholder="Type de propriété" Text="{Binding PropertyType}" />
+            <Entry Placeholder="Prix" Text="{Binding Price}" Keyboard="Numeric" />
+            <Entry Placeholder="Surface (m²)" Text="{Binding Surface}" Keyboard="Numeric" />
+            <Entry Placeholder="Nombre de chambres" Text="{Binding NumberOfRooms}" Keyboard="Numeric" />
+            <Entry Placeholder="Quartier" Text="{Binding Neighborhood}" />
+            <Editor Placeholder="Description" Text="{Binding Description}" HeightRequest="150" />
+
+            <!-- Upload Photos -->
+            <Button Text="Télécharger des photos" BackgroundColor="Gray" TextColor="White"
+                    Command="{Binding UploadPhotosCommand}" />
+
+            <!-- Publish Button -->
+            <Button Text="Publier" BackgroundColor="Blue" TextColor="White"
+                    Command="{Binding PublishPropertyCommand}" />
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

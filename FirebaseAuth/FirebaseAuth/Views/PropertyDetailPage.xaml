@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             x:Class="FirebaseAuth.Views.PropertyDetailPage"
+             Title="{Binding PropertyName}">
+
+    <ContentPage.BindingContext>
+        <vm:PropertyDetailPageViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+        <!-- Image Carousel -->
+        <CarouselView ItemsSource="{Binding PropertyImages}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding}" Aspect="AspectFill" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!-- Property Details -->
+        <StackLayout Padding="10">
+            <Label Text="{Binding PropertyName}" FontAttributes="Bold" FontSize="Large" />
+            <Label Text="Surface: {Binding Surface}" FontSize="Medium" />
+            <Label Text="Nombre de chambres: {Binding NumberOfRooms}" FontSize="Medium" />
+            <Label Text="Quartier: {Binding Neighborhood}" FontSize="Medium" />
+            <Label Text="{Binding FullDescription}" FontSize="Small" LineBreakMode="WordWrap" />
+        </StackLayout>
+
+        <!-- Contact Button -->
+        <Button Text="Contacter l'agent" BackgroundColor="Green" TextColor="White"
+                Command="{Binding ContactAgentCommand}" />
+    </StackLayout>
+
+</ContentPage>

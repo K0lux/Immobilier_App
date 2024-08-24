@@ -1,0 +1,58 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FirebaseAuth.ViewModels"
+             x:Class="FirebaseAuth.Views.ProfilePage"
+             BackgroundColor="#1C1C1C">
+
+    <ContentPage.BindingContext>
+        <vm:ProfilePageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FuturisticEntry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="#2C2C2C"/>
+                <Setter Property="TextColor" Value="#00FFFF"/>
+                <Setter Property="PlaceholderColor" Value="#808080"/>
+            </Style>
+            <Style x:Key="FuturisticButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#00FFFF"/>
+                <Setter Property="TextColor" Value="#1C1C1C"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <Frame BackgroundColor="#2C2C2C" CornerRadius="100" HeightRequest="200" WidthRequest="200" HorizontalOptions="Center" Padding="0">
+                <Image Source="{Binding ProfileImage}" Aspect="AspectFill"/>
+            </Frame>
+
+            <Label Text="{Binding FullName}" TextColor="#00FFFF" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+            <Frame BackgroundColor="#2C2C2C" CornerRadius="10" Margin="0,20,0,0">
+                <StackLayout>
+                    <Label Text="Informations de l'agent" TextColor="#00FFFF" FontSize="18" FontAttributes="Bold"/>
+                    <Entry Text="{Binding Email}" Placeholder="Email" Style="{StaticResource FuturisticEntry}"/>
+                    <Entry Text="{Binding PhoneNumber}" Placeholder="Numéro de téléphone" Style="{StaticResource FuturisticEntry}"/>
+                    <Entry Text="{Binding Agency}" Placeholder="Agence" Style="{StaticResource FuturisticEntry}"/>
+                    <Editor Text="{Binding Bio}" Placeholder="Biographie" HeightRequest="100" Style="{StaticResource FuturisticEntry}"/>
+                </StackLayout>
+            </Frame>
+
+            <Button Text="Mettre à jour le profil" 
+                    Command="{Binding UpdateProfileCommand}"
+                    Style="{StaticResource FuturisticButton}"
+                    Margin="0,20,0,0"/>
+
+            <Button Text="Déconnexion" 
+                    Command="{Binding LogoutCommand}"
+                    BackgroundColor="#FF4136"
+                    TextColor="White"
+                    CornerRadius="20"
+                    Margin="0,20,0,0"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
